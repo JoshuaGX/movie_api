@@ -7,7 +7,116 @@
   <body>
     <div>
       <h1>My Personal Movie List</h1>
-      <p>Check out some of my favorite movies. Instructions to be included soon!</p>
+      <p>Here is a table below that will show you what each URL endpoint should do while working with a database</p>
     </div>
+
+    <table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>URL</th>
+      <th>HTTP method</th>
+      <th>Request body data format</th>
+      <th>Response body data format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Get a list of all movies</td>
+      <td>/movies</td>
+      <td>GET</td>
+      <td>None</td>
+      <td>
+        json object holding data about all movies
+      </td>
+    </tr>
+    <tr>
+      <td>Get data about a single movie by title</td>
+      <td>/movies/:title</td>
+      <td>GET</td>
+      <td>None</td>
+      <td>
+        json object holding data about a single movie, containing title,
+        description, genre, director,image URL
+      </td>
+    </tr>
+    <tr>
+      <td>Get data about a movie genre</td>
+      <td>/genre/:name</td>
+      <td>GET</td>
+      <td>None</td>
+      <td>
+        json object holding data about a movie genre, containing name and
+        description.
+      </td>
+    </tr>
+    <tr>
+      <td>Get data about a director</td>
+      <td>/director/:name</td>
+      <td>GET</td>
+      <td>None</td>
+      <td>
+        json object holding data about a director, containing name, bio,
+        birth year, death year.
+      </td>
+    </tr>
+    <tr>
+      <td>Add a new user to the registry.</td>
+      <td>/users</td>
+      <td>POST</td>
+      <td>
+        json object holding data about the user to add, appears as:
+        <p>
+          username: "USER", password: "IlikePIE", email:
+          "USER@mail.com", dateofbirth: "XX/XX/XX"
+        </p>
+      </td>
+      <td>
+        json object holding data about the user that was add,appears as:
+        <p>
+          id: X, username: "USER", password: "IlikePIE", email:
+          "USER@mail.com", dateofbirth: "XX/XX/XX"
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>Update a user's information</td>
+      <td>/users/:username/:password/:email/:date of birth</td>
+      <td>PUT</td>
+      <td>None</td>
+      <td>A text message indicating the user's information was updated.</td>
+    </tr>
+    <tr>
+      <td>Add a movie to the user's favorites list</td>
+      <td>/favorites/:username/:title</td>
+      <td>POST</td>
+      <td>None</td>
+      <td>
+        Message indicating the movie title was added to the user's
+        favorite list.
+      </td>
+    </tr>
+    <tr>
+      <td>Delete a movie from the user's favorite list</td>
+      <td>/favorites/:username/:title</td>
+      <td>DELETE</td>
+      <td>None</td>
+      <td>
+        Message indicating the movie title was deleted from the
+        user's favorite list.
+      </td>
+    </tr>
+    <tr>
+      <td>Remove a user from the registry.</td>
+      <td>/users/:username/:title</td>
+      <td>DELETE</td>
+      <td>None</td>
+      <td>
+        Message indicating the user was removed from the registry.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
   </body>
 </html>
