@@ -1,8 +1,16 @@
 const express = require('express'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
-  uuid = require("uuid"),
+  uuid = require('uuid'),
   app = express();
+
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true});
 
   let topMovies = [{
       title : 'Iron Man',
@@ -73,15 +81,39 @@ app.get("/director/:name", (req, res) => {
 
 
 // User section for user registration, removal of registration, adding user information, and adding/removing movies for users
-app.post("/users", (req, res) => {
-  let newUser = req.body;
 
-  if (!newUser.username) {
-    const message = "Missing username in request";
-    res.status(400).send(message);
-  } else {
-    res.send("User successfully added.");
-  }
+//Add a user
+/* We’ll expect JSON in this format
+{
+ ID : Integer,
+ Username : String,
+ Password : String,
+ Email : String,
+ Birthday : Date
+}*/
+app.post('/users', function(req, res) {
+  Users.findOne({ Username : req.body.Username })
+  .then(function(user) {
+    if (user) {
+      return res.status(400).send(req.body.Username + "already exists");
+    } else {
+      Users
+      .create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      })
+      .then(function(user) {res.status(201).json(user) })
+      .catch(function(error) {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      })
+    }
+  }).catch(function(error) {
+    console.error(error);
+    res.status(500).send("Error: " + error)
+  });
 });
 
 app.put("/users/:username/:password/:email/:dateofbirth", (req, res) => {
