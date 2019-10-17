@@ -4,11 +4,11 @@ const express = require('express'),
   uuid = require('uuid'),
   app = express();
 
-const mongoose = require('mongoose');
-const Models = require('./models.js');
+  const mongoose = require('mongoose');
+  const Models = require('./models.js');
 
-const Movies = Models.Movie;
-const Users = Models.User;
+  const Movies = Models.Movie;
+  const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true});
 
@@ -113,6 +113,31 @@ app.post('/users', function(req, res) {
   }).catch(function(error) {
     console.error(error);
     res.status(500).send("Error: " + error)
+  });
+});
+
+// Get all users
+app.get('/users', function(req, res) {
+
+  Users.find()
+  .then(function(users) {
+    res.status(201).json(users)
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+
+//Get a user by Username
+app.get('/users/:Username', function(req, res) {
+  Users.findOne({ Username : req.params.Username })
+  .then(function(user) {
+    res.json(user)
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
   });
 });
 
