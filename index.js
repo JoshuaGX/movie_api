@@ -12,48 +12,6 @@ const express = require('express'),
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true});
 
-  let topMovies = [{
-      title : 'Iron Man',
-      director : 'Jon Favreau'
-  },
-  {
-      title : 'The Lord of the Rings Trilogy',
-      director : 'Peter Jackson'
-  },
-  {
-      title : 'The Hobbit Trilogy',
-      director : 'Peter Jackson'
-  },
-  {
-      title : '47 Ronin',
-      director : 'Carl Rinsch'
-  },
-  {
-      title : 'The Last Samurai',
-      director : 'Edward Zwick'
-  },
-  {
-      title : 'The King\'s Speech',
-      director : 'Tom Hooper'
-  },
-  {
-      title : 'Guardians Of The Galaxy Vol. 1&2',
-      director : 'James Gunn'
-  },
-  {
-      title : 'Doctor Strange',
-      director : 'Scott Derrickson'
-  },
-  {
-      title : 'The Expendables',
-      director : 'Sylvester Stallone'
-  },
-  {
-      title : 'Ocean\'s Eleven',
-      director : 'Steven Soderbergh'
-  }
-  ]
-
 app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(express.static('public'));
