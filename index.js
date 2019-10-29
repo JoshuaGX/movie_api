@@ -9,12 +9,17 @@ const express = require('express'),
 const Movies = Models.Movie;
 const Users = Models.User;
 
+const passport = require('passport');
+require('./passport');
+
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true,})
 app.use(morgan('common'));
 app.use(bodyParser.json());
 
+var auth = require('./auth')(app);
 
-app.get('/Movies', function(req, res) {
+
+app.get('/Movies', passport.authenticate('jwt', { session: false }), function(req, res) {
     Movies.find()
     .then(function(movies) {
         res.status(201).json(movies)
