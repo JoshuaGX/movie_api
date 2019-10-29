@@ -14,7 +14,7 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 
 
-app.get('/movies', function(req, res) {
+app.get('/Movies', function(req, res) {
     Movies.find()
     .then(function(movies) {
         res.status(201).json(movies)
@@ -66,6 +66,41 @@ app.get("/movies/directors/:Name", (req, res) => {
   });
 
 
+  app.post('/movies', function(req, res) {
+      Movies.findOne({ Name : req.body.Name })
+      .then(function(user) {
+          if (user) {
+              return res.status(400).send(req.body.Name + "already exists");
+          } else {
+              Movies
+              .create({
+                title : req.body.title,
+                description : req.body.description,
+                genre : {
+                  name : req.body.name,
+                  description : req.body.description
+                },
+                director : {
+                  name : req.body.name,
+                  bio : req.body.bio
+                },
+                actors : [req.body.actors],
+                imagePath : req.body.imagePath,
+                featured : req.body.featured
+              })
+              .then(function(user) {res.status(201).json(movie) })
+              .catch(function(error) {
+                  console.error(error);
+                  res.status(500).send("Error: " + error);
+              })
+          }
+      }).catch(function(error) {
+          console.error(error);
+          res.status(500).send("Error: " + error);
+      });
+  });
+
+
 app.post('/users', function(req, res) {
     Users.findOne({ Username : req.body.Username })
     .then(function(user) {
@@ -91,6 +126,18 @@ app.post('/users', function(req, res) {
     });
 });
 
+
+app.get('/users', function(req, res) {
+
+  Users.find()
+  .then(function(users) {
+    res.status(201).json(users)
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
 
 app.put('/users/:Username', function(req, res) {
     Users.findOneAndUpdate({ Username : req.params.Username }, { $set :

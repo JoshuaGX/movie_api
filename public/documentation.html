@@ -13,7 +13,7 @@
     <table>
   <thead>
     <tr>
-      <th>Description</th>
+      <th>Business Logic</th>
       <th>URL</th>
       <th>HTTP method</th>
       <th>Request body data format</th>
@@ -38,6 +38,24 @@
       <td>
         json object holding data about a single movie, containing title,
         description, genre, director,image URL
+        <br>
+          {<br>
+          _id : ObjectId("5d9bf720318a47cd31ecd74b"),<br>
+          Title : "Iron Man",<br>
+          Description: :"A vacationing woman meets her ideal man, leading to a swift marriage. Back at home, however, their idyllic life is upset when they discover their neighbors could be assassins who have been contracted to kill the couple..",<br>
+          Genre: {<br>
+            Name:"Superhero",<br>
+            Description: "A superhero film, superhero movie or superhero motion picture is a film that is focused on the actions of one or more superheroes: individuals who usually possess superhuman abilites relative to a normal person and are dedicated to protecting the public."<br>
+            } ,<br>
+          Director: <br>
+            { <br>
+            Name: "Jon Favreau" ,<br>
+            Bio: "Jonathan Favreau is an American actor, director, producer, screenwriter, and chef.",<br>
+            BirthYear: "1966"<br>
+            },<br>
+          ImagePath: "ironman.png" ,<br>
+          Featured: true <br>
+        }
       </td>
     </tr>
     <tr>
@@ -67,15 +85,21 @@
       <td>
         json object holding data about the user to add, appears as:
         <p>
-          username: "USER", password: "IlikePIE", email:
-          "USER@mail.com", dateofbirth: "XX/XX/XX"
+          {<br>
+          Username:"User1234",<br>
+          Name: "Jonathan",<br>
+          Password:"IlikePIE",<br>
+          Email: "jonny19@mail.com",<br>
+          Birth_date:"1995-09-15",<br>
+          Favorit_movie: []<br>
+          }<br>
         </p>
       </td>
       <td>
         json object holding data about the user that was add,appears as:
         <p>
-          id: X, username: "USER", password: "IlikePIE", email:
-          "USER@mail.com", dateofbirth: "XX/XX/XX"
+          id: X, username: "User1234", name: "Jonathan", password: "IlikePIE", email:
+          "jonny19@mail.com", dateofbirth: "09/15/1995"
         </p>
       </td>
     </tr>
@@ -83,34 +107,72 @@
       <td>Update a user's information</td>
       <td>/users/:username/:password/:email/:date of birth</td>
       <td>PUT</td>
-      <td>None</td>
-      <td>A text message indicating the user's information was updated.</td>
+      <td>  {<br>
+        Username:"User1234",<br>
+        Name: "Jonathan",<br>
+        Password:"IlikePIE",<br>
+        Email: "jonny19@mail.com",<br>
+        Birth_date:"1995-09-15",<br>
+        Favorit_movie: []<br>
+        }<br></td>
+      <td>json object holding updated information.</td>
     </tr>
     <tr>
       <td>Add a movie to the user's favorites list</td>
       <td>/favorites/:username/:title</td>
       <td>POST</td>
-      <td>None</td>
-      <td>
-        Message indicating the movie title was added to the user's
-        favorite list.
+      <td>A JSON object holding data about movie ID to be added to user's list of favourites.Example:<br>
+        {<br>
+        MovieID:"_id" : ObjectId("5d9bf720318a47cd31ecd74b"<br>
+        }<br>
+      </td>
+      <td>JSON object holding data about updated user profile including the updated list of favorite movies.Example:<br>
+        {<br>
+          Username:"User1234",<br>
+          Name: "Jonathan",<br>
+          Password:"IlikePIE",<br>
+          Email: "jonny19@mail.com",<br>
+          Birth_date:"1995-09-15",<br>
+          Favorit_movie: [ObjectId("5d8262852e9422a0c643b63d"), ObjectId("5d9bf720318a47cd31ecd74b")]<br>
+        }<br>
       </td>
     </tr>
     <tr>
-      <td>Delete a movie from the user's favorite list</td>
-      <td>/favorites/:username/:title</td>
+      <td>Remove a movie from user's list of favorit_movies</td>
+      <td>/users/:Username/Movies/:MovieID</td>
       <td>DELETE</td>
-      <td>None</td>
-      <td>
-        Message indicating the movie title was deleted from the
-        user's favorite list.
+      <td>A JSON object holding data about MovieID to be removed from user's list of favourit_movies.Example:<br>
+        {<br>
+        MovieID:"_id" : ObjectId("5d8262852e9422a0c643b63b")<br>
+        }<br>
+      </td>
+      <td>JSON object holding data about updated user profile including the updated list of favorite movies.Example:<br>
+        {<br>
+          {<br>
+            Username:"User1234",<br>
+            Name: "Jonathan",<br>
+            Password:"IlikePIE",<br>
+            Email: "jonny19@mail.com",<br>
+            Birth_date:"1995-09-15",<br>
+            Favorit_movie: [ObjectId("5d8262852e9422a0c643b63d")]<br>
+          }<br>
+        }<br>
       </td>
     </tr>
     <tr>
       <td>Remove a user from the registry.</td>
       <td>/users/:username/:title</td>
       <td>DELETE</td>
-      <td>None</td>
+      <td>A JSON object holding data about user to be deregistered with following structure:<br>
+        {<br>
+          Username:"User1234",<br>
+          Name: "Jonathan",<br>
+          Password:"IlikePIE",<br>
+          Email: "jonny19@mail.com",<br>
+          Birth_date:"1995-09-15",<br>
+          Favorit_movie: [ObjectId("5d8262852e9422a0c643b63d")]<br>
+        }<br>
+      </td>
       <td>
         Message indicating the user was removed from the registry.
       </td>
