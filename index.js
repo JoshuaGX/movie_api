@@ -9,12 +9,17 @@ const express = require('express'),
 const Movies = Models.Movie;
 const Users = Models.User;
 
+const passport = require('passport');
+require('./passport');
+
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true,})
 app.use(morgan('common'));
 app.use(bodyParser.json());
 
+var auth = require('./auth')(app);
 
-app.get('/Movies', function(req, res) {
+
+app.get('/Movies', passport.authenticate('jwt', { session: false }), function(req, res) {
     Movies.find()
     .then(function(movies) {
         res.status(201).json(movies)
@@ -64,42 +69,6 @@ app.get("/movies/directors/:Name", (req, res) => {
       res.status(500).send("Error: " + err);
     });
   });
-
-
-  app.post('/movies', function(req, res) {
-      Movies.findOne({ Name : req.body.Name })
-      .then(function(user) {
-          if (user) {
-              return res.status(400).send(req.body.Name + "already exists");
-          } else {
-              Movies
-              .create({
-                title : req.body.title,
-                description : req.body.description,
-                genre : {
-                  name : req.body.name,
-                  description : req.body.description
-                },
-                director : {
-                  name : req.body.name,
-                  bio : req.body.bio
-                },
-                actors : [req.body.actors],
-                imagePath : req.body.imagePath,
-                featured : req.body.featured
-              })
-              .then(function(user) {res.status(201).json(movie) })
-              .catch(function(error) {
-                  console.error(error);
-                  res.status(500).send("Error: " + error);
-              })
-          }
-      }).catch(function(error) {
-          console.error(error);
-          res.status(500).send("Error: " + error);
-      });
-  });
-
 
 app.post('/users', function(req, res) {
     Users.findOne({ Username : req.body.Username })
