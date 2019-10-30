@@ -30,7 +30,9 @@ app.use(cors({
 
 const { check, validationResult } = require('express-validator');
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true,})
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true,})
+mongoose.connect('mongodb+srv://Sarofar:lotris39@cluster0-b3eqq.azure.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true,})
+
 app.use(morgan('common'));
 app.use(bodyParser.json());
 
