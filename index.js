@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Welcome to myFlix! Your customized movie platform.");
+  res.send("Welcome to myFlixJCG. Movie Database for all your needs.");
 });
 
 app.get(
