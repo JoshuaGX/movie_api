@@ -14,7 +14,7 @@ const Users = models.User;
 
 mongoose
   .connect(
-    "mongodb+srv://Sarofar:myFlixDB01@cluster0-b3eqq.azure.mongodb.net/test?retryWrites=true&w=majority",
+    "mongodb+srv://Sarofar:myFlixDB01@cluster0-b3eqq.azure.mongodb.net/myFlixDB?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useFindAndModify: false,
