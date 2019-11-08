@@ -14,7 +14,7 @@ const Users = models.User;
 
 mongoose
   .connect(
-    "mongodb+srv://Sarofar:myFlixDB01@cluster0-b3eqq.azure.mongodb.net/test?retryWrites=true&w=majority",
+    "mongodb+srv://Sarofar:myFlixDB01@cluster0-b3eqq.azure.mongodb.net/myFlixDB?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useFindAndModify: false,
@@ -38,13 +38,10 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Welcome to myFlix! Your customized movie platform.");
+  res.send("Welcome to myFlixJCG. Movie Database for all your needs.");
 });
 
-app.get(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+app.get("/movies", async (req, res) => {
     try {
       const movies = await Movies.find();
       if (!movies.length) return res.status(400).send("No movies yet");
