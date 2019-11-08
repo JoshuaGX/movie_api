@@ -41,10 +41,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to myFlixJCG. Movie Database for all your needs.");
 });
 
-app.get(
-  "/movies",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
+app.get("/movies", async (req, res) => {
     try {
       const movies = await Movies.find();
       if (!movies.length) return res.status(400).send("No movies yet");
