@@ -5,7 +5,7 @@ const express = require("express"),
   models = require("./models"),
   User = require("./User"),
   passport = require("passport"),
-  cors = require("cors"),
+//  cors = require("cors"),
   { check, validationResult } = require("express-validator");
 require("./passport");
 
@@ -24,7 +24,7 @@ mongoose
   .catch(err => console.log(err.message));
 
 const app = express();
-app.use(cors());
+//app.use(cors());
 app.use(bodyParser.json());
 
 const auth = require("./auth")(app);
