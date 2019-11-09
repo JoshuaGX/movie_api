@@ -5,7 +5,7 @@ const express = require("express"),
   models = require("./models"),
   User = require("./User"),
   passport = require("passport"),
-//  cors = require("cors"),
+  cors = require("cors"),
   { check, validationResult } = require("express-validator");
 require("./passport");
 
@@ -24,7 +24,7 @@ mongoose
   .catch(err => console.log(err.message));
 
 const app = express();
-//app.use(cors());
+app.use(cors());
 app.use(bodyParser.json());
 
 const auth = require("./auth")(app);
@@ -37,11 +37,18 @@ app.use((err, req, res, next) => {
   next();
 });
 
+
+/* START OF MOVIE ENDPOINTS */
+
+// Homepage
 app.get("/", (req, res) => {
   res.send("Welcome to myFlixJCG. Movie Database for all your needs.");
 });
 
-app.get("/movies", async (req, res) => {
+// GET all movies
+app.get("/movies",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     try {
       const movies = await Movies.find();
       if (!movies.length) return res.status(400).send("No movies yet");
@@ -53,6 +60,7 @@ app.get("/movies", async (req, res) => {
   }
 );
 
+// GET all featured movies
 app.get(
   "/movies/featured",
   passport.authenticate("jwt", { session: false }),
@@ -69,6 +77,7 @@ app.get(
   }
 );
 
+// GET a single movie by title
 app.get(
   "/movies/:title",
   passport.authenticate("jwt", { session: false }),
@@ -85,6 +94,7 @@ app.get(
   }
 );
 
+// GET the genre of a single movie
 app.get(
   "/movies/:title/genre",
   passport.authenticate("jwt", { session: false }),
@@ -103,6 +113,7 @@ app.get(
   }
 );
 
+// GET all movies of a single genre
 app.get(
   "/movies/genres/:genre",
   passport.authenticate("jwt", { session: false }),
@@ -123,6 +134,7 @@ app.get(
   }
 );
 
+// GET the director of a single movie
 app.get(
   "/movies/:title/director",
   passport.authenticate("jwt", { session: false }),
@@ -141,6 +153,12 @@ app.get(
   }
 );
 
+/* END OF MOVIE ENDPOINTS */
+
+
+/* START OF USER ENDPOINTS */
+
+// GET all users
 app.get(
   "/users",
   passport.authenticate("jwt", { session: false }),
@@ -156,6 +174,7 @@ app.get(
   }
 );
 
+// GET a single user by username
 app.get(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
@@ -172,6 +191,8 @@ app.get(
   }
 );
 
+
+// Register a user to the application
 app.post(
   "/users",
   [
@@ -209,6 +230,7 @@ app.post(
   }
 );
 
+// Update user information
 app.put(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
@@ -246,6 +268,7 @@ app.put(
   }
 );
 
+// Update user favorite movies
 app.put(
   "/users/:username/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
@@ -266,6 +289,7 @@ app.put(
   }
 );
 
+// Delete user favorite movies
 app.delete(
   "/users/:username/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
@@ -286,6 +310,7 @@ app.delete(
   }
 );
 
+// Deregister a user from the application
 app.delete(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
@@ -303,6 +328,9 @@ app.delete(
     }
   }
 );
+
+/* END OF USER ENDPOINTS */
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () =>
