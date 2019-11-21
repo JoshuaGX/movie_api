@@ -1,4 +1,4 @@
 # Ignore folder named 'node_modules'
-node_modules/
-dist/
-.cache/
+node_modules
+dist
+.cache
