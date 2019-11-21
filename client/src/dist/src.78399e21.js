@@ -324,7 +324,7 @@ checkPropTypes.resetWarningCache = function () {
 
 module.exports = checkPropTypes;
 },{"./lib/ReactPropTypesSecret":"../node_modules/prop-types/lib/ReactPropTypesSecret.js"}],"../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
-/** @license React v16.11.0
+/** @license React v16.12.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -343,7 +343,7 @@ if ("development" !== "production") {
     var checkPropTypes = require('prop-types/checkPropTypes'); // TODO: this is special because it gets imported during build.
 
 
-    var ReactVersion = '16.11.0'; // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+    var ReactVersion = '16.12.0'; // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
     // nor polyfill, then a plain number is used for performance.
 
     var hasSymbol = typeof Symbol === 'function' && Symbol.for;
@@ -2469,11 +2469,8 @@ if ("development" !== "production") {
         Object.freeze(scopeComponent);
       }
       return scopeComponent;
-    } // Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-    // In some cases, StrictMode should also double-render lifecycles.
-    // This can be confusing for tests though,
-    // And it can be bad for performance in production.
-    // This feature flag can be used to control the behavior:
+    } // Helps identify side effects in render-phase lifecycle hooks and setState
+    // reducers by double invoking them in Strict Mode.
     // To preserve the "Pause on caught exceptions" behavior of the debugger, we
     // replay the begin phase of a failed component inside invokeGuardedCallback.
     // Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
@@ -2498,7 +2495,7 @@ if ("development" !== "production") {
     var enableScopeAPI = false; // New API for JSX transforms to target - https://github.com/reactjs/rfcs/pull/107
 
     var enableJSXTransformAPI = false; // We will enforce mocking scheduler with scheduler/unstable_mock at some point. (v17?)
-    // Till then, we warn about the missing mock, but still fallback to a sync mode compatible version
+    // Till then, we warn about the missing mock, but still fallback to a legacy mode compatible version
     // For tests, we flush suspense fallbacks in an act scope;
     // *except* in some of our own tests, where we test incremental loading states.
     // Add a callback property to suspense to notify which promises are currently
@@ -2509,6 +2506,7 @@ if ("development" !== "production") {
     // Part of the simplification of React.createElement so we can eventually move
     // from React.createElement to React.jsx
     // https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md
+    // Flag to turn event.target and event.currentTarget in ReactNative from a reactTag to a component instance
 
     var React = {
       Children: {
@@ -33925,7 +33923,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60484" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57551" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,0 +1,5 @@
+# Ignore folder named 'node_modules'
+node_modules/
+dist/
+.cache/
+client/src/.cache/
