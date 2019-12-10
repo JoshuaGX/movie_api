@@ -1,37 +1,48 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export class MovieView extends React.Component {
   constructor() {
     super();
-
     this.state = {};
   }
+
   render() {
-    const { movie, onClick } = this.props;
-
+    const { movie } = this.props;
     if (!movie) return null;
-
     return (
-      <div className='movie-view'>
-        <div className='movie-title'>
-          <div className='label'>Title</div>
-          <div className='value'>{movie.Title}</div>
+      <div
+        className="container-fluid align-items-center ml-3 mt-2"
+        style={{ width: "660px" }}
+      >
+        <div className="movie-title">
+          <h1 className="value">{movie.Title}</h1>
         </div>
-        <div className='movie-description'>
-          <div className='label'>Description</div>
-          <div className='value'>{movie.Description}</div>
+        <img
+          className="movie-poster"
+          src="http://via.placeholder.com/640x360"
+        />
+        <div className="movie-description">
+          <div className="mt-1 mb-3">{movie.Description}</div>
         </div>
-        <img className='movie-poster' src={movie.ImageURL} />
-
-        <div className='movie-genre'>
-          <div className='label'>Genre</div>
-          <div className='value'>{movie.Genre.Name}</div>
+        <div className="movie-genre">
+          Genre:
+          <Link to={`/genres/${movie.Genre.Name}`}>
+            <Button variant="link">{movie.Genre.Name}</Button>
+          </Link>
         </div>
-        <div className='movie-director'>
-          <div className='label'>Director</div>
-          <div className='value'>{movie.Director.Name}</div>
+        <div className="movie-director">
+          Director:
+          <Link to={`/directors/${movie.Director.Name}`}>
+            <Button variant="link">{movie.Director.Name}</Button>
+          </Link>
         </div>
-        <button onClick={() => onClick()}>Back</button>
+        <Link to={`/`}>
+          <Button className="mt-3" variant="primary">
+            Return To Movies
+          </Button>
+        </Link>
       </div>
     );
   }

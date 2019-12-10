@@ -1,59 +1,32 @@
 import React from "react";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import logo from "../../images/logo.png";
 
-function Navbar() {
-    return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-            <a className="navbar-brand" href="#">
-                <img src={logo} alt="logo" style={{ width: "150px" }} />
-            </a>
-            <button
-                className="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span className="navbar-toggler-icon" />
-            </button>
-
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
-                        <a className="nav-link text-white ml-5" href="#">
-                            Home <span className="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link text-white ml-5" href="#">
-                            Register
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link text-white ml-5" href="#">
-                            Login
-                        </a>
-                    </li>
-                </ul>
-                <form className="form-inline my-2 my-lg-0">
-                    <input
-                        className="form-control mr-sm-2"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                    />
-                    <button
-                        className="btn btn-outline-primary my-2 my-sm-0"
-                        type="submit"
-                        Search
-                    >
-                    </button>
-                </form>
-            </div>
-        </nav>
-    );
+function MyNavbar() {
+  return (
+    <Navbar bg="dark" expand="lg">
+      <Navbar.Brand href="#">
+        <img src={logo} alt="logo" style={{ width: "150px" }} />
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link className="text-white ml-5">Home</Nav.Link>
+          <Nav.Link className="text-white ml-5">Profile</Nav.Link>
+          <Nav.Link className="text-white ml-5">Logout</Nav.Link>
+        </Nav>
+        <Form inline>
+          <Form.Control type="text" placeholder="Search" className="mr-sm-2" />
+          <Button variant="outline-primary" type="submit">
+            Search
+          </Button>
+        </Form>
+      </Navbar.Collapse>
+    </Navbar>
+  );
 }
 
-export default Navbar;
+export default MyNavbar;
