@@ -1,0 +1,21 @@
+$primary-color: #D9514EFF;
+$secondary-color: #2A2B2DFF;
+$font-stack: Oswald, sans-serif;
+
+body {
+    background: url('../../../src/Images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+     height: 100%;
+      }
+
+div.card-title {
+    font-family: $font-stack;
+    text-align: center;
+}
+
+.favoriteButton {
+    float: right;
+}
+.infoButton {
+    float: right;
+}

@@ -1,59 +1,76 @@
-import React, { useState } from "react";
-import "./login-view.scss";
-import axios from "axios";
-import { Button, Form } from "react-bootstrap";
-import logo from "../../images/logo.png";
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './login-view.scss';
 
 export function LoginView(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  // const registration = useState('')
 
+  /**
+   * posting username/pw to /login
+   * @function handleSubmit
+   * @param {event}
+   * @return {object} User information
+   */
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    /* Send a request to the server for authentication */
-    axios
-      .post("https://myflixdbjcg.herokuapp.com/login", {
-        Username: username,
-        Password: password
-      })
-      .then((response) => {
-        const data = response.data;
-        props.onLoggedIn(data);
-      })
-      .catch((e) => {
-        console.log("no such user");
-      });
+    // send a request to the server for authentication
+    axios.post('https://myflixdbjcg.herokuapp.com/login', {
+      username: username,
+      password: password,
+    })
+    .then(res => {
+      const data = res.data;
+      props.onLoggedIn(data);
+    })
+    .catch(e => {
+      alert('Incorrect info, please try again.')
+    });
+      // workaround for authentication
+    // props.onLoggedIn(username);
   };
 
   return (
-    <Form className="login-form">
-      <img src={logo} alt="logo" style={{ width: "300px" }} />
-      <Form.Group controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          type="username"
-          placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Form.Group>
-      <Button
-        variant="btn-lg btn-dark btn-block"
-        type="submit"
-        onClick={handleSubmit}
-      >
-        Login
-      </Button>
-    </Form>
+    <Container className='loginContainer'>
+      <h1>Hello! Welcome to MyFlix!</h1>
+      <form>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Username</Form.Label>
+          <Form.Control type="email" placeholder="Ilovemovies" value={username} onChange={e => setUsername(e.target.value)} />
+          <Form.Text className="emailShare">
+            We'll never share your email with anyone else.
+          </Form.Text>
+        </Form.Group>
+
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+        </Form.Group>
+        <Button id='loginButton' onClick={handleSubmit}>
+          Log in
+        </Button>
+
+        <Form.Group controlId='newUser'>
+          <Form.Text>New User? Click 
+   
+          <Link to={`/register`}>
+            <Button size='sm' id='registerButton'>here</Button>
+          </Link>
+
+          </Form.Text>
+        </Form.Group>
+      </form>
+    </Container>
   );
 }
+
+LoginView.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired,
+};

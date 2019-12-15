@@ -1,32 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import { connect } from 'react-redux';
+import Container from 'react-bootstrap/Container';
+import React from 'react';
+import './Genre-View';
 
-export class GenreView extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+import { Link } from 'react-router-dom';
 
-  render() {
-    const { genre } = this.props;
+/**
+ * Genre information of movie
+ * @function GenreView
+ * @param {string} props - movie.genre
+ * @returns {Container} - information about the genre
+ */
+
+function GenreView(props) {
+  const { movies, titleName } = props;
+
+  if (!movies || !movies.length) return null;
+
+  const movie = movies.find(movie => movie.title === titleName);
+  console.log(movie.genre)
     return (
-      <div
-        className="container-fluid align-items-center ml-3 mt-2"
-        style={{ width: "660px" }}
-      >
-        <div className="genre-title">
-          <h1>{genre.Name}</h1>
-        </div>
-        <div className="genre-description">
-          <div className="mt-1 mb-3">{genre.Description}</div>
-        </div>
-        <Link to={`/`}>
-          <Button className="mt-3" variant="primary">
-            Return To Movies
-          </Button>
-        </Link>
-      </div>
+    
+        <Container>
+            <Card>
+                <Card.Body>
+                    <Card.Title>
+                      {movie.genre.name}
+                    </Card.Title>     
+                    <Card.Text>
+                      Genre info: {movie.genre.description}
+                    </Card.Text>
+                    <Link to={`/movies/${movie._id}`}>
+                      <Button variant='primary'>Return to Movies</Button>
+                    </Link>
+                </Card.Body>
+            </Card>   
+        </Container>
     );
   }
-}
+
+export default connect(({movies}) => ({movies}))(GenreView)
+

@@ -1,73 +1,81 @@
-import React, { useState } from "react";
-import "./registration-view.scss";
-import axios from "axios";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import logo from "../../images/logo.png";
+//imports
+import axios from 'axios'
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './registration-view.scss';
+
 
 export function RegistrationView(props) {
-  const [username, createUsername] = useState("");
-  const [password, createPassword] = useState("");
-  const [email, createEmail] = useState("");
-  const [birthday, createBirthday] = useState("");
+  const [username, createUsername] = useState('');
+  const [password, createPassword] = useState('');
+  const [email, createEmail] = useState('');
+  const [birthday, createDob] = useState('');
 
-  const handleRegister = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("https://myflixdbjcg.herokuapp.com/login", {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log(data);
-        window.open("/", "_self"); // the second argument '_self' is necessary so that the page will open in the current tab
-      })
-      .catch((e) => {
-        console.log("error registering the user");
-      });
+    console.log(username, password, birthday, email);
+
+    // workaround for authentication
+    // props.onLoggedIn(username);
+
+    // send a request to the server for authentication
+    axios.post('https://myflixdbjcg.herokuapp.com/users', {
+      username: username, 
+      password: password, 
+      birthday: birthday, 
+      email: email,
+   })
+    .then(res => {
+      const data = res.data;
+      console.log(data);
+      alert('Registration has been Successful!');
+      window.open('/');
+    })
+    .catch(e => {
+      console.log('Registration Error');
+    });
   };
 
   return (
-    <Form className="registration-form">
-      <img src={logo} alt="logo" style={{ width: "300px" }} />
-      <Form.Group controlId="formBasicUsername">
-        <Form.Control
-          type="text"
-          placeholder="Enter username"
-          value={username}
-          onChange={(e) => createUsername(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group controlId="formBasicPassword">
-        <Form.Control
-          type="text"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => createPassword(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Control
-          type="text"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) => createEmail(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group controlId="formBasicBirthday">
-        <Form.Control
-          type="text"
-          placeholder="Enter Date of Birth"
-          value={birthday}
-          onChange={(e) => createBirthday(e.target.value)}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleRegister}>
-        Register
-      </Button>
-    </Form>
+    <Container className='registrationContainer'>
+      <Form className='registrationForm'>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => createEmail(e.target.value)} />
+          <Form.Text className='emailShare'>
+            We'll never share your email with anyone else.
+          </Form.Text>
+        </Form.Group>
+
+        <Form.Group controlId='formBasicUsername'>
+          <Form.Label>Username</Form.Label>
+          <Form.Control type="text" placeholder="Username" value={username} onChange={e => createUsername(e.target.value)} />
+          </Form.Group>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Passwordy" value={password} onChange={e => createPassword(e.target.value)} />
+        </Form.Group>
+
+        <Form.Group controlId='formBasicDob'>
+        <Form.Label>Date of Birth</Form.Label>
+          <Form.Control type="date" placeholder="01/01/1985" value={birthday} onChange={e => createDob(e.target.value)} />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicChecbox">
+          <Form.Check type="checkbox" label="Check if you're a good person" />
+        </Form.Group>
+        <Button variant="primary" type="submit" onClick={handleSubmit}>
+          Register
+        </Button>
+
+        <Link to={`/`}>
+            <Button id='loginButtonRegistration'>Already Registered?</Button>
+          </Link>
+      </Form>
+    </Container>
   );
 }
